@@ -7,6 +7,8 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tce.menus.MainMenu;
+
 /*
  * 这是游戏的起点。
  * 一个新的MainMenu,将处理游戏的其余部分。
