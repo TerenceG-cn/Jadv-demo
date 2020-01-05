@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -70,7 +72,39 @@ public class QueueProvider {
 	}
 
 	public static String take() {
-		// TODO Auto-generated method stub
-		return null;
+		String message = null;
+		if (GameModeType.SERVER == mode) {
+			message = getInput("QUERY");// 询问
+			if (message.equals("error")) {
+				message = "exit";
+			}
+		} else {
+			Scanner input = null;
+			try {
+				input = new Scanner(System.in);
+				message = input.nextLine();
+			} catch (NoSuchElementException nsee) {
+				nsee.printStackTrace();
+			} catch (IllegalStateException ise) {
+				ise.printStackTrace();
+			}
+		}
+		return message;
+	}
+
+	private static String getInput(String message) {
+		logger.debug("getInput( " + message + " )");
+		String input = "";
+		try {
+			out.writeUTF(message + "END");
+			input = in.readUTF();
+		} catch (SocketException se) {
+			logger.debug("Inside getInput( " + message + " )", se);
+			input = "error";
+		} catch (IOException ioe) {
+			logger.debug("Inside getInput( " + message + " )", ioe);
+			input = "error";
+		}
+		return input;
 	}
 }

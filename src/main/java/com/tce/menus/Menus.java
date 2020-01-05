@@ -1,6 +1,5 @@
 package com.tce.menus;
 
-import java.io.ObjectOutputStream.PutField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +42,15 @@ public class Menus {
 	}
 
 	private void printMenuItems(List<MenuItem> m) {
-		// TODO Auto-generated method stub
-		
+		int i = 1;//?
+		for (MenuItem menuItem : menuItems) {
+			if (menuItem.getDescription() != null) {
+				QueueProvider.offer("[" + i + "]" + menuItem.getCommand() + " - " + menuItem.getDescription());
+			} else {
+				QueueProvider.offer("[" + i + "]" + menuItem.getCommand());
+			}
+			i++;
+		}
+
 	}
 }

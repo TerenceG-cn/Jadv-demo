@@ -23,6 +23,7 @@ public class Jadv {
 		GameModeType mode = getGameMode(args);
 		logger.debug("Starting in mode " + mode.name());
 		String serverName = "localhost";
+		/*端口号设置*/
 		int port = 4044;
 		if (mode == GameModeType.SERVER) {
 			port = Integer.parseInt(args[1]);
@@ -30,9 +31,10 @@ public class Jadv {
 			serverName = args[2];
 			port = Integer.parseInt(args[1]);
 		}
+		
 		if (GameModeType.CLIENT == mode) {
 			new Client(serverName, port);	//开启一个客户端
-		} else if (GameModeType.SERVER == mode) {
+		} else if (GameModeType.SERVER == mode) {//服务器端
 			while (true) {
 				ServerSocket listener = null;
 				try {
@@ -53,11 +55,18 @@ public class Jadv {
 				}
 			}
 		} else {
+			//独立架构
+			System.out.println("咋回事");
 			QueueProvider.startMessenger(GameModeType.STAND_ALONE);
 			new MainMenu();
 		}
 	}
 
+	/**
+	 * 获取游戏模式
+	 * @param args
+	 * @return
+	 */
 	private static GameModeType getGameMode(String[] args) {
 		if (args == null || args.length == 0 || "".equals(args[0].trim())) {
 			return GameModeType.STAND_ALONE;
